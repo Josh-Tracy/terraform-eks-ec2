@@ -17,7 +17,7 @@ module "my-cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "dev-cluster"
   cluster_version = "1.21"
-  subnets         = [aws_subnet.dev-subnet.id]
+  subnets         = [aws_subnet.dev1-subnet.id,aws_subnet.dev2-subnet.id]
   vpc_id          = aws_vpc.dev-vpc.id
 
   worker_groups = [

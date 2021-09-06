@@ -2,7 +2,6 @@ provider "aws" {
 	region = "us-east-1"
 }
 
-
 # Create VPC
 resource "aws_vpc" "dev-vpc" {
   cidr_block = "10.0.0.0/16"
@@ -12,13 +11,23 @@ resource "aws_vpc" "dev-vpc" {
 }
 
 # Create subnet(s)
-resource "aws_subnet" "dev-subnet" {
+resource "aws_subnet" "dev1-subnet" {
   vpc_id     = aws_vpc.dev-vpc.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
-    Name = "dev-subnet"
+    Name = "dev1-subnet"
+  }
+}
+
+resource "aws_subnet" "dev2-subnet" {
+  vpc_id     = aws_vpc.dev-vpc.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "dev2-subnet"
   }
 }
 
@@ -51,9 +60,15 @@ resource "aws_route_table" "dev-route-table" {
   }
 }
 
-# Create Route Table Association for dev-subnet to dev-rt
-resource "aws_route_table_association" "dev-sub-to-dev-rt" {
-  subnet_id      = aws_subnet.dev-subnet.id
+# Create Route Table Association for dev1-subnet to dev-rt
+resource "aws_route_table_association" "dev1-sub-to-dev-rt" {
+  subnet_id      = aws_subnet.dev1-subnet.id
+  route_table_id = aws_route_table.dev-route-table.id
+}
+
+# Create Route Table Association for dev1-subnet to dev-rt
+resource "aws_route_table_association" "dev2-sub-to-dev-rt" {
+  subnet_id      = aws_subnet.dev2-subnet.id
   route_table_id = aws_route_table.dev-route-table.id
 }
 
@@ -101,9 +116,9 @@ resource "aws_security_group" "allow-web-traffic" {
   }
 }
 
-# Create a NIC
+# Create a NIC(s)
 resource "aws_network_interface" "dev-server-nic" {
-  subnet_id       = aws_subnet.dev-subnet.id
+  subnet_id       = aws_subnet.dev1-subnet.id
   private_ips     = ["10.0.1.50"]
   security_groups = [aws_security_group.allow-web-traffic.id]
 }
