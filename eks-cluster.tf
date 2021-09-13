@@ -20,10 +20,12 @@ module "my-cluster" {
   subnets         = [aws_subnet.dev1-subnet.id,aws_subnet.dev2-subnet.id]
   vpc_id          = aws_vpc.dev-vpc.id
 
+# If the instance is too small, you will not have enough available NICs to assign IP addresses to
+# all the pods on your instances
   worker_groups = [
     {
       name = "dev-worker-group-1"
-      instance_type = "t2.micro"
+      instance_type = "t3.medium"
       asg_min_size = 1
       asg_desired_capacity = 2
       asg_max_size  = 3

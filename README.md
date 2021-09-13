@@ -1,4 +1,4 @@
-# DEPLOY EKS - TERRAFORM
+# DEPLOY EKS - TERRAFORM :space_invader:
 
 Tired of creating clusters manually just to try something out for a few minutes? Then run this.
 
@@ -19,4 +19,12 @@ Tired of creating clusters manually just to try something out for a few minutes?
 
 ### Connecting
 * Run ```aws eks --region us-east-1 update-kubeconfig --name dev-cluster``` to add the context to your kubeconfig
+
+### Troubleshooting
+
+#### Pods stuck in Pending
+* Possibility of resources not efficient. The instances in the worker group could be too small to assign IP addresses to all the pods
+
+#### Workers not joining the cluster
+* Ensure the workers are getting public IP addresses
 

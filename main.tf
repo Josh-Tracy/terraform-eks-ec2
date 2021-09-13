@@ -11,10 +11,12 @@ resource "aws_vpc" "dev-vpc" {
 }
 
 # Create subnet(s)
+# Subnets have to be allowed to automatically map public IP addresses for worker nodes
 resource "aws_subnet" "dev1-subnet" {
   vpc_id     = aws_vpc.dev-vpc.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1a"
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "dev1-subnet"
@@ -25,6 +27,7 @@ resource "aws_subnet" "dev2-subnet" {
   vpc_id     = aws_vpc.dev-vpc.id
   cidr_block = "10.0.2.0/24"
   availability_zone = "us-east-1b"
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "dev2-subnet"
@@ -131,26 +134,26 @@ resource "aws_eip" "one" {
   depends_on = [aws_internet_gateway.dev-gw]
 }
 
+# Commented out unless needed. Not needed for EKS cluster deployment
 # Create Server
-resource "aws_instance" "dev-server" {
-	ami = "ami-087c17d1fe0178315"
-	instance_type = "t2.micro"
-	availability_zone = "us-east-1a"
-	key_name = "terraform-main-key"
-	user_data = <<-EOF
-		    #!/bin/bash
-		    sudo yum update -y
-		    sudo yum install httpd -y
-		    sudo systemctl start httpd
-		    sudo bash -c 'echo this is a test > /var/www/html/index.html'
-		    EOF
-
-	network_interface {
-	  device_index = 0
-	  network_interface_id = aws_network_interface.dev-server-nic.id
-	}
-
-	tags = {
-	  Name = "dev-ubuntu"
-	}
-}
+#resource "aws_instance" "dev-server" {
+#	ami = "ami-087c17d1fe0178315"
+#	instance_type = "t2.micro"
+#	availability_zone = "us-east-1a"
+#	key_name = "terraform-main-key"
+#	user_data = <<-EOF
+#		    #!/bin/bash
+#		    sudo yum update -y
+#		    sudo yum install httpd -y
+#		    sudo systemctl start httpd
+#		    sudo bash -c 'echo this is a test > /var/www/html/index.html'
+#		    EOF
+#
+#	network_interface {
+#	  device_index = 0
+#	  network_interface_id = aws_network_interface.dev-server-nic.id
+#
+#	tags = {
+#	  Name = "dev-ubuntu"
+#	}
+#}
