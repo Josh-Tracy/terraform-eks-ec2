@@ -22,6 +22,7 @@ Tired of creating clusters manually just to try something out for a few minutes?
 * Install Terraform
 * Clone this repository
 * Edit the variables in ```variables.tf``` to match any unique values you want to apply to your instances
+* Edit the public key in ```keypairs.tf``` to match the public key of a keypair you generated somewhere using ```ssh-keygen```
 * Run a ```terraform init``` to grab providers and modules
 * Run ```aws_configure``` and establish your credentials
 * Run a ```terraform_apply``` and wait 10 - 15 minutes
