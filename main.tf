@@ -23,6 +23,13 @@ resource "aws_subnet" "dev1-subnet" {
   }
 }
 
+data "aws_subnet" "dev1-subnet" {
+  filter {
+    name = "tag:Name"
+    values = ["dev1-subnet"]
+  }
+}
+
 resource "aws_subnet" "dev2-subnet" {
   vpc_id                  = aws_vpc.dev-vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -31,6 +38,13 @@ resource "aws_subnet" "dev2-subnet" {
 
   tags = {
     Name = "dev2-subnet"
+  }
+}
+
+data "aws_subnet" "dev2-subnet" {
+  filter {
+    name = "tag:Name"
+    values = ["dev2-subnet"]
   }
 }
 
@@ -123,12 +137,6 @@ resource "aws_security_group" "allow-web-traffic" {
 resource "aws_network_interface" "dev-server-nic" {
   subnet_id       = aws_subnet.dev1-subnet.id
   private_ips     = ["10.0.1.50"]
-  security_groups = [aws_security_group.allow-web-traffic.id]
-}
-
-resource "aws_network_interface" "dev-server-nic2" {
-  subnet_id       = aws_subnet.dev2-subnet.id
-  private_ips     = ["10.0.2.50"]
   security_groups = [aws_security_group.allow-web-traffic.id]
 }
 
