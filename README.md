@@ -15,7 +15,7 @@ Tired of creating clusters manually just to try something out for a few minutes?
 * Run a ```terraform init``` to grab providers and modules
 * Run ```aws_configure``` and establish your credentials
 * Run a ```terraform_apply``` and wait 10 - 15 minutes
-* Run ```aws eks --region us-east-1 update-kubeconfig --name dev-cluster``` to add the context to your kubeconfig
+* Run ```aws eks --region us-east-1 update-kubeconfig --name my-cluster``` to add the context to your kubeconfig
 * Profit
 
 ### Deployment Instructions - EC2 Instances
@@ -29,7 +29,7 @@ Tired of creating clusters manually just to try something out for a few minutes?
 * Profit
 
 ### Connecting
-* Run ```aws eks --region us-east-1 update-kubeconfig --name dev-cluster``` to add the context to your kubeconfig
+* Run ```aws eks --region us-east-1 update-kubeconfig --name my-cluster``` to add the context to your kubeconfig
 
 ### Troubleshooting
 
