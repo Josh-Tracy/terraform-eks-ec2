@@ -23,12 +23,7 @@ resource "aws_subnet" "dev1-subnet" {
   }
 }
 
-data "aws_subnet" "dev1-subnet" {
-  filter {
-    name = "tag:Name"
-    values = ["dev1-subnet"]
-  }
-}
+
 
 resource "aws_subnet" "dev2-subnet" {
   vpc_id                  = aws_vpc.dev-vpc.id
@@ -41,12 +36,6 @@ resource "aws_subnet" "dev2-subnet" {
   }
 }
 
-data "aws_subnet" "dev2-subnet" {
-  filter {
-    name = "tag:Name"
-    values = ["dev2-subnet"]
-  }
-}
 
 # Create Internet Gateway
 resource "aws_internet_gateway" "dev-gw" {
